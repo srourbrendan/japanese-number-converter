@@ -472,16 +472,6 @@ function createKanjiReading(word) {
 function createKanjiGroup(word) {
     let div = document.createElement('div');
     div.id = 'grouping'
-    //let ruby = document.createElement('ruby');
-
-    // Loop through word to create furigana elements
-    /*for (let i in word[0]) {
-        let rb = document.createElement('rb');
-        rb.append(document.createTextNode(word[0][i]))
-        let rt = document.createElement('rt');
-        rt.append(document.createTextNode(word[1][i]))
-        ruby.append(rb, rt);
-    }*/
     div.append(document.createTextNode(word))
     return div
 }
@@ -708,9 +698,8 @@ function createElementGrouping(list, id) {
     let div = document.createElement('div')
     div.className = 'colors'
     div.id = id
-    let count = 0;
-    let span = document.createElement('span')
 
+    // For each element in list, create span and add it to the div
     for (let i = 0; i < list.length; i++) {
         let span = document.createElement('span')
         setClassName(list, span, i)
@@ -720,19 +709,25 @@ function createElementGrouping(list, id) {
     return div;
 }
 
-// Get random number
-//let num = getRandomInt(1, 10000000)
-//let num = 1000000010
-// let num = 10001000100000
-
+/**
+ * Add furigana to spans of specified div
+ * @param {*} div 
+ * @param {*} reading 
+ */
 function addFurigana(div, reading) {
+    // Get all spans
     let span = div.querySelectorAll('span')
-    let k = 0
+
+    // Initialize reading index
     let r = 0
+
+    // For each span, create ruby element and add it to the span
     for (let i = 0; i < span.length; i++) {
         let kanji = span[i].textContent
         kanji = kanji.split('')
 
+        
+        // For each kanji, create rb and rt elements and add them to the ruby element
         let ruby = document.createElement('ruby')
         for (let j = 0; j < kanji.length; j++) {
             let rb = document.createElement('rb');
@@ -743,6 +738,7 @@ function addFurigana(div, reading) {
             ruby.append(rb, rt);
         }
 
+        // Create new span and replace old span with new span
         let replacement = document.createElement('span')
         replacement.className = span[i].className
         replacement.append(ruby)
@@ -754,6 +750,7 @@ function addFurigana(div, reading) {
  * Converts number to Kanji and displays it
  */
 function convertNumber() {
+    // Get and parse input
     let input = document.querySelector('#input').value
     let num = parseInt(input)
 
@@ -764,9 +761,9 @@ function convertNumber() {
     if (!answer) {
         answer = document.createElement('div')
         answer.id = 'answer'
-        console.log('created answer div')
     }
 
+    // Check if input is valid
     if (/^\d+$/.test(input) == false || num > 10000000000000000n || num < 1) {
         answer.textContent = 'Invalid input. Please enter a number between 1 and 10,000,000,000,000,000.'
     }
@@ -776,19 +773,10 @@ function convertNumber() {
 
         // Convert number to Kanji
         let word = numToKanji(input)
-        console.log(word)
 
         // Separate number into kanji and reading
         let kanji = word[0]
         let reading = word[1]
-
-
-        // Create kanji, reading, and number elements
-        let div = createKanjiReading(word)
-        console.log(div)
-        let number = createNumber(num)
-        // output.append(div)
-        // output.append(number)
 
         // Separate kanji into groupings
         kanji = kanji.join('')
@@ -796,7 +784,6 @@ function convertNumber() {
         
         // Create kanji grouping element
         let grouping = createKanjiGroup(groupKanji)
-        // output.append(grouping)
 
 
         // Remove previous answer
@@ -807,13 +794,14 @@ function convertNumber() {
         // Create colors grouping elements
         // Create kanji grouping element
         kanji = byGroupKanjiList(kanji)
-        console.log(kanji)
         grouping = createElementGrouping(kanji, 'kanji')
+
+        // Set language to Japanese
         grouping.lang = 'ja'
         grouping.classList.add('furigana-hide')
-        console.log(grouping)
         answer.append(grouping)
 
+        // Add furigana
         addFurigana(grouping, reading)
 
         // Create number grouping element
@@ -827,7 +815,7 @@ function convertNumber() {
         answer.append(grouping)
 
         // Loop through colors to fix number span classes
-        let colors = document.querySelectorAll('.colors')
+        let colors = answer.querySelectorAll('.colors')
         for (let i = 1; i < colors.length; i++) {
             let span = colors[i].querySelectorAll('span')
             setNumberClass(span)
@@ -845,5 +833,4 @@ function convertNumber() {
 
     let body = document.querySelector('#main')
     body.append(answer)
-    // body.append(output)
 }
