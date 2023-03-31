@@ -10,13 +10,25 @@
                 color: blue;
             }
             .man {
-                color: orange;
+                color: rgb(255, 136, 0);
             }
             .oku {
                 color: green;
             }
             .chou {
                 color: red;
+            }
+
+            rt {
+                user-select: none;
+            }
+
+            .furigana-hide ruby>rt {
+                display: none;
+            }
+
+            .furigana-show ruby>rt {
+                display: show;
             }
         </style>
     </head>
@@ -26,11 +38,13 @@
         <div id="main">
             <h1>Japanese Number Converter</h1>
             <input type="text" id="input" placeholder="Enter a number" onkeydown="if (event.keyCode == 13)
-            document.getElementById('button').click()">
-            <input type="button" id="button" value="Convert" onClick="convertNumber()">
+            document.getElementById('convertButton').click()">
+            <input type="button" id="convertButton" value="Convert" onClick="convertNumber()">
+            <input type="button" id="furiganaButton" value="Toggle Furigana" onClick="toggleFurigana()">
+            <script src="toggleFurigana.js"></script>
             <br><br>
         </div>
-    
+
         <script src="main.js"></script>
     </body>
 </html>

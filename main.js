@@ -810,6 +810,7 @@ function convertNumber() {
         console.log(kanji)
         grouping = createElementGrouping(kanji, 'kanji')
         grouping.lang = 'ja'
+        grouping.classList.add('furigana-hide')
         console.log(grouping)
         answer.append(grouping)
 
