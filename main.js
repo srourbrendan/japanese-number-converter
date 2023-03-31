@@ -798,6 +798,7 @@ function convertNumber() {
 
         // Set language to Japanese
         grouping.lang = 'ja'
+        grouping.classList.add('furigana-hide')
         answer.append(grouping)
 
         // Add furigana
