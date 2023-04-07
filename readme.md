@@ -16,4 +16,4 @@ The purpose of this is to help people who are learning Japanese to understand ho
 
 ## Show Furigana
 
-The furigana can be toggled on and off. The default is on.
+The furigana can be toggled on and off. The default is off.
